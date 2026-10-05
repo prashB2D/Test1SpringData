@@ -1,0 +1,61 @@
+package com.prashu.Test1.Serveice;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.prashu.Test1.Modules.Project;
+import com.prashu.Test1.Repositery.IrepoProject;
+@Service
+public class ProjectService implements BasicOPerationProject {
+	
+	IrepoProject repo;
+
+	ProjectService(@Autowired IrepoProject repo){
+		this.repo=repo;
+	}
+
+	@Override
+	public void saveProj(Project emp) {
+		repo.save(emp);
+
+	}
+
+	@Override
+	public void saveAllProj(List<Project> li) {
+		 repo.saveAll(li);
+		
+
+	}
+
+	@Override
+	public void findProjById(Integer id) {
+		Optional<Project> op = repo.findById(id);
+		if(op.isPresent()){
+			System.out.println(op.get());
+		}else {
+			System.out.println(" there no emp with this ID");
+		}
+
+	}
+
+	@Override
+	public void findAllProj() {
+		List<Project> li = repo.findAll();
+		li.forEach(v->System.out.println(v));
+
+	}
+
+	@Override
+	public void deleteProjById(Integer id) {
+		if(repo.existsById(id)) {
+			repo.deleteById(id);
+			System.out.println(" the recored deleted ");
+		}else {
+			System.out.println(" thre is no  recored found in that ID");
+		}
+	}
+
+}
